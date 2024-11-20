@@ -1,0 +1,112 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    width: 320px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #0056b3;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s;
+  }
+  
+  input:focus, select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  select {
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  .button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+  }
+  
+  button {
+    flex: 1;
+    padding: 10px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  button:active {
+    transform: scale(0.98);
+  }
+  
+  #viewSavedBtn {
+    margin-top: 10px;
+    background-color: #28a745;
+  }
+  
+  #viewSavedBtn:hover {
+    background-color: #218838;
+  }
+  
+  #qrcode {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    min-height: 150px;
+  }
+  
+  #qrcode img {
+    max-width: 100%;
+  }
+  
+  #printBtn {
+    margin-top: 10px;
+    background-color: #ffc107;
+  }
+  
+  #printBtn:hover {
+    background-color: #e0a800;
+  }
+  
+  footer {
+    margin-top: 15px;
+    font-size: 12px;
+    text-align: center;
+    color: #666;
+  }
+  
