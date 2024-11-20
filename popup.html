@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WiFi QR Code Generator</title>
+  <style>
+    body {
+      width: 300px;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+    }
+    input, select {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 5px;
+    }
+    #qrcode {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>WiFi QR Code Generator</h2>
+  <input type="text" id="ssid" placeholder="WiFi Name (SSID)">
+  <input type="password" id="password" placeholder="Password">
+  <select id="encryption">
+    <option value="WPA">WPA/WPA2</option>
+    <option value="WEP">WEP</option>
+    <option value="">No Password</option>
+  </select>
+  <button id="generateBtn">Generate QR Code</button>
+  <button id="saveBtn">Save QR Code</button>
+  <div id="qrcode"></div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

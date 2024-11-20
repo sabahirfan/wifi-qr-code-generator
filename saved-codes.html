@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Saved WiFi QR Codes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Saved WiFi QR Codes</h1>
+  <div id="savedCodesContainer"></div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.getElementById('savedCodesContainer');
+      const savedCodes = JSON.parse(localStorage.getItem('wifiQRCodes') || '[]');
+
+      if (savedCodes.length === 0) {
+        container.innerHTML = '<p>No saved QR codes yet.</p>';
+      } else {
+        savedCodes.forEach((code, index) => {
+          const codeDiv = document.createElement('div');
+          codeDiv.innerHTML = `
+            <h3>${code.ssid}</h3>
+            ${code.qrCode}
+            <p>Saved: ${new Date(code.timestamp).toLocaleString()}</p>
+            <button onclick="deleteCode(${index})">Delete</button>
+          `;
+          container.appendChild(codeDiv);
+        });
+      }
+
+      window.deleteCode = function(index) {
+        const savedCodes = JSON.parse(localStorage.getItem('wifiQRCodes') || '[]');
+        savedCodes.splice(index, 1);
+        localStorage.setItem('wifiQRCodes', JSON.stringify(savedCodes));
+        location.reload();
+      };
+    });
+  </script>
+</body>
+</html>
