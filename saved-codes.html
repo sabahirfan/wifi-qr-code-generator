@@ -1,46 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Saved WiFi QR Codes</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
+      margin: 20px;
+      background-color: #f9f9f9;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .saved-code {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .saved-code h3 {
+      margin: 5px 0;
+      font-size: 18px;
+      color: #555;
+    }
+
+    .qr-code img {
+      width: 150px;
+      height: 150px;
+    }
+
+    .saved-code p {
+      margin: 10px 0;
+      font-size: 14px;
+      color: #777;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .no-saved-codes {
+      text-align: center;
+      color: #555;
+      font-size: 16px;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
   <h1>Saved WiFi QR Codes</h1>
-  <div id="savedCodesContainer"></div>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const container = document.getElementById('savedCodesContainer');
-      const savedCodes = JSON.parse(localStorage.getItem('wifiQRCodes') || '[]');
+  <div id="savedCodesContainer" class="saved-codes-container"></div>
 
-      if (savedCodes.length === 0) {
-        container.innerHTML = '<p>No saved QR codes yet.</p>';
-      } else {
-        savedCodes.forEach((code, index) => {
-          const codeDiv = document.createElement('div');
-          codeDiv.innerHTML = `
-            <h3>${code.ssid}</h3>
-            ${code.qrCode}
-            <p>Saved: ${new Date(code.timestamp).toLocaleString()}</p>
-            <button onclick="deleteCode(${index})">Delete</button>
-          `;
-          container.appendChild(codeDiv);
-        });
-      }
-
-      window.deleteCode = function(index) {
-        const savedCodes = JSON.parse(localStorage.getItem('wifiQRCodes') || '[]');
-        savedCodes.splice(index, 1);
-        localStorage.setItem('wifiQRCodes', JSON.stringify(savedCodes));
-        location.reload();
-      };
-    });
-  </script>
+  <script src="saved-codes.js"></script>
 </body>
 </html>
