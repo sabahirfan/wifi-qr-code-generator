@@ -11,7 +11,8 @@
   
   <input type="text" id="ssid" placeholder="WiFi Name (SSID)">
   <input type="password" id="password" placeholder="Password">
-  <select id="encryption">
+  <label for="encryption">Encryption</label>
+  <select id="encryption" name="encryption" >
     <option value="WPA">WPA/WPA2</option>
     <option value="WEP">WEP</option>
     <option value="">No Password</option>
@@ -21,16 +22,16 @@
     <button id="generateBtn">Generate QR Code</button>
     <button id="saveBtn">Save QR Code</button>
   </div>
-  
-  <button id="viewSavedBtn">View Saved Codes</button>
-  <button id="printBtn">Print QR Code</button>
-  
+  <div class="button-group">
+    <button id="viewSavedBtn">View Saved QR</button>
+    <button id="printBtn">Print QR Code</button>
+  </div>
   <div id="qrcode">
     <p style="text-align: center; color: #888;">Your QR Code will appear here</p>
   </div>
   
   <footer>
-    &copy; 2024 WiFi QR Code Generator
+    &copy; 2024 Delta Tech Global Limited.
   </footer>
 
   <!-- External Scripts -->
