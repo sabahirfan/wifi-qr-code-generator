@@ -2,18 +2,18 @@
 (function () {
   // Function to initialize the extension
   function initializeExtension() {
-    const ssidInput = document.getElementById('ssid');
-    const passwordInput = document.getElementById('password');
-    const encryptionSelect = document.getElementById('encryption');
-    const generateBtn = document.getElementById('generateBtn');
-    const saveBtn = document.getElementById('saveBtn');
-    const viewSavedBtn = document.getElementById('viewSavedBtn');
-    const printBtn = document.getElementById('printBtn'); // Reference to Print button
-    const qrcodeDiv = document.getElementById('qrcode');
+    const ssidInput = document.getElementById("ssid");
+    const passwordInput = document.getElementById("password");
+    const encryptionSelect = document.getElementById("encryption");
+    const generateBtn = document.getElementById("generateBtn");
+    const saveBtn = document.getElementById("saveBtn");
+    const viewSavedBtn = document.getElementById("viewSavedBtn");
+    const printBtn = document.getElementById("printBtn"); // Reference to Print button
+    const qrcodeDiv = document.getElementById("qrcode");
 
     // Safely check if qrcode function exists
     function isQRCodeAvailable() {
-      return typeof window.qrcode === 'function';
+      return typeof window.qrcode === "function";
     }
 
     // Function to generate WiFi QR Code
@@ -23,14 +23,14 @@
       const encryption = encryptionSelect.value;
 
       if (!ssid) {
-        alert('Please enter WiFi name (SSID)');
+        alert("Please enter WiFi name (SSID)");
         return null;
       }
 
       // Check if qrcode is available
       if (!isQRCodeAvailable()) {
-        console.error('QR Code generator not loaded');
-        alert('Error: QR Code generator not loaded');
+        console.error("QR Code generator not loaded");
+        alert("Error: QR Code generator not loaded");
         return null;
       }
 
@@ -39,20 +39,20 @@
 
       try {
         // Use window.qrcode to be explicit
-        const qr = window.qrcode(0, 'M');
+        const qr = window.qrcode(0, "M");
         qr.addData(qrString);
         qr.make();
 
         return qr.createImgTag(5);
       } catch (error) {
-        console.error('QR Code generation error:', error);
-        alert('Error generating QR Code');
+        console.error("QR Code generation error:", error);
+        alert("Error generating QR Code");
         return null;
       }
     }
 
     // Event listener for Generate QR Code
-    generateBtn.addEventListener('click', function () {
+    generateBtn.addEventListener("click", function () {
       const qrCodeImg = generateWiFiQRCode();
       if (qrCodeImg) {
         qrcodeDiv.innerHTML = qrCodeImg;
@@ -60,40 +60,42 @@
     });
 
     // Event listener for Save QR Code
-    saveBtn.addEventListener('click', function () {
+    saveBtn.addEventListener("click", function () {
       const ssid = ssidInput.value;
       const qrCodeImg = generateWiFiQRCode();
 
       if (qrCodeImg) {
         // Save to localStorage
-        const savedCodes = JSON.parse(localStorage.getItem('wifiQRCodes') || '[]');
+        const savedCodes = JSON.parse(
+          localStorage.getItem("wifiQRCodes") || "[]"
+        );
         savedCodes.push({
           ssid: ssid,
           qrCode: qrCodeImg,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
         });
 
-        localStorage.setItem('wifiQRCodes', JSON.stringify(savedCodes));
-        alert('QR Code saved successfully!');
+        localStorage.setItem("wifiQRCodes", JSON.stringify(savedCodes));
+        alert("QR Code saved successfully!");
       }
     });
 
     // Event listener for View Saved Codes
-    viewSavedBtn.addEventListener('click', function () {
+    viewSavedBtn.addEventListener("click", function () {
       // Open saved-codes.html in a new tab
-      chrome.tabs.create({ url: 'saved-codes.html' });
+      chrome.tabs.create({ url: "saved-codes.html" });
     });
 
     // Event listener for Print QR Code
-    printBtn.addEventListener('click', function () {
+    printBtn.addEventListener("click", function () {
       // Check if a QR Code is available
-      if (!qrcodeDiv.innerHTML.trim() || !qrcodeDiv.querySelector('img')) {
-        alert('Please generate a QR Code before printing.');
+      if (!qrcodeDiv.innerHTML.trim() || !qrcodeDiv.querySelector("img")) {
+        alert("Please generate a QR Code before printing.");
         return;
       }
 
       // Create a new window for printing
-      const printWindow = window.open('', '_blank');
+      const printWindow = window.open("", "_blank");
       printWindow.document.write(`
         <html>
           <head>
@@ -123,8 +125,84 @@
       printWindow.focus();
       printWindow.print();
     });
+
+    // Helper to download files
+    function downloadFile(data, filename, type) {
+      const blob = new Blob([data], { type });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    // Function to generate QR Code as canvas
+    function generateQRCodeCanvas(size) {
+      const ssid = ssidInput.value;
+      const password = passwordInput.value;
+      const encryption = encryptionSelect.value;
+
+      if (!ssid) {
+        alert("Please enter WiFi name (SSID)");
+        return null;
+      }
+
+      const qrString = `WIFI:T:${encryption};S:${ssid};P:${password};;`;
+
+      const canvas = document.createElement("canvas");
+      const qr = window.qrcode(0, "M");
+      qr.addData(qrString);
+      qr.make();
+
+      // Clear the canvas before rendering
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Render the QR code to the canvas
+      qr.renderTo2dContext(ctx, size);
+
+      return canvas;
+    }
+
+    // Event listener for Download QR Code
+    document.getElementById("downloadBtn").addEventListener("click", () => {
+      const format = document.getElementById("downloadFormat").value;
+      const canvas = generateQRCodeCanvas(10); // Base size for scaling
+
+      if (!canvas) return;
+
+      const size = format.includes("200") ? 200 : 400;
+      canvas.width = size;
+      canvas.height = size;
+
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, size, size);
+
+      // Reinitialize the QR code object to be used for rendering on canvas
+      const qr = window.qrcode(0, "M");
+      const ssid = ssidInput.value;
+      const password = passwordInput.value;
+      const encryption = encryptionSelect.value;
+      const qrString = `WIFI:T:${encryption};S:${ssid};P:${password};;`;
+
+      qr.addData(qrString);
+      qr.make();
+
+      // Render QR code onto canvas context
+      qr.renderTo2dContext(ctx, size);
+
+      // If the format is PNG, create the PNG file
+      if (format.startsWith("png")) {
+        canvas.toBlob((blob) => {
+          downloadFile(blob, `wifi-qr-code-${size}.png`, "image/png");
+        });
+      } else if (format === "svg") {
+        const svg = qr.createSvgTag();
+        downloadFile(svg.outerHTML, "wifi-qr-code.svg", "image/svg+xml");
+      }
+    });
   }
 
   // Use DOMContentLoaded to ensure all elements are loaded
-  document.addEventListener('DOMContentLoaded', initializeExtension);
+  document.addEventListener("DOMContentLoaded", initializeExtension);
 })();

@@ -22,6 +22,7 @@
     <button id="generateBtn">Generate QR Code</button>
     <button id="saveBtn">Save QR Code</button>
   </div>
+
   <div class="button-group">
     <button id="viewSavedBtn">View Saved QR</button>
     <button id="printBtn">Print QR Code</button>
@@ -30,6 +31,15 @@
     <p style="text-align: center; color: #888;">Your QR Code will appear here</p>
   </div>
   
+  <div class="button-group">
+    <select id="downloadFormat" aria-label="select download format">
+      <option value="png200">PNG (200x200)</option>
+      <option value="png400">PNG (400x400)</option>
+      <option value="svg">SVG</option>
+    </select>
+    <button id="downloadBtn">Download Code</button>
+  </div>
+
   <footer>
     &copy; 2024 Delta Tech Global Limited.
   </footer>
