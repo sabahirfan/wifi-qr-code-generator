@@ -2,7 +2,7 @@
 
 A Chrome extension for generating WiFi QR codes with the following features:
 
-[![trophy](https://github-profile-trophy.vercel.app/?username=sabahirfan)](https://github.com/ryo-ma/github-profile-trophy)
+[![trophy](https://github-profile-trophy.vercel.app/?username=sabahirfan)](https://github.com/sabahirfan)
 
 #### Secure Generation: #### 
 
